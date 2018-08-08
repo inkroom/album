@@ -1,0 +1,69 @@
+/**
+ * 图片上传插件css
+ */
+
+#upload_content {
+    width: 80%;
+    background: #fff871;
+    position: fixed;
+    left: 10%;
+    top: 10%;
+    height: 70%;
+    z-index: 100;
+
+    /*border: #389fff medium solid;*/
+}
+
+#upload_content #move_head {
+    background: #53ffab;
+    padding: 8px;
+    cursor: move;
+    height: 5%;
+    border: #6fa0ff medium solid;
+}
+
+#upload_content #move_head input {
+    float: right;
+}
+
+#upload_content .main {
+    /*clear: both;*/
+    border-bottom: #4dfff8 medium solid;
+    border-left: #ff50ef medium solid;
+    border-right: #ff50ef medium solid;
+    padding: 10px;
+    height: 95%;
+    box-sizing: border-box;
+    background: inherit;
+}
+#upload_content .main .manager_header{
+    /*height: 5%;*/
+    padding-bottom: 5px;
+    border-bottom: #6fccbc medium solid;
+}
+
+.images {
+    overflow-y: auto;
+    /*height:50%;*/
+    /*background: green;*/
+    height: 95%;
+}
+
+.images .pic {
+    display: inline-block;
+    margin: 15px;
+}
+
+.images .pic img {
+    display: block;
+    width: inherit;
+    vertical-align: middle;
+    border: black medium inset;
+    height: 200px;
+}
+
+.images .pic progress {
+    width: 90%;
+    margin: 5px 0;
+    display: inline-block;
+}

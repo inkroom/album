@@ -1,0 +1,25 @@
+<?xml   version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+ http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd"
+>
+    <!--<bean id="cut" class="cn.inkroom.web.quartz.aop.RedisAop"/>-->
+    <!--<aop:config>-->
+        <!--<aop:pointcut id="time" expression="execution(*  cn.inkroom.web.quartz.redis.JedisClientPool.*(..))"/>-->
+        <!--<aop:advisor advice-ref="cut" pointcut-ref="time"/>-->
+    <!--</aop:config>-->
+
+    <!--&lt;!&ndash;自定义contextPath&ndash;&gt;-->
+    <!--<bean id="contextPathAop" class="cn.inkroom.web.quartz.aop.ContextPathAop">-->
+        <!--<property name="contextPath" value="4th-12"/>-->
+    <!--</bean>-->
+    <!--<aop:config>-->
+
+        <!--<aop:pointcut id="contextPathCut" expression="execution(* javax.servlet.ServletContext.getContextPath(..))"/>-->
+        <!--<aop:advisor advice-ref="contextPathAop" pointcut-ref="contextPathCut"/>-->
+
+    <!--</aop:config>-->
+</beans>

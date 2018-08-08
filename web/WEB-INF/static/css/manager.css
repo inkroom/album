@@ -1,0 +1,50 @@
+/**
+  *  Created by IntelliJ IDEA.
+  *  User: 墨盒
+  *  Date: 2017/8/19
+  *  Time: 22:39
+  *  管理css
+  */
+
+.image_group {
+}
+
+.image_group .image_item {
+    display: inline-block;
+    background: white;
+    padding: 10px;
+    text-align: left;
+    border-radius: 3px;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.image_group .image_item .image {
+    position: relative;
+}
+
+.image_group .image_item .image img {
+    /*width: 150px;*/
+    height: 150px;
+    /*clip: rect(0, 0, 150px, 150px);*/
+    /*cursor: default;*/
+}
+
+.image_group .image_item .image .count {
+    cursor: default;
+    color: white;
+    font-size: 18px;
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+}
+
+.input_checkbox {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.manager_group > a {
+    margin: 10px 20px;
+}

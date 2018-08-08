@@ -1,0 +1,93 @@
+/**
+  *  Created by IntelliJ IDEA.
+  *  User: 墨盒
+  *  Date: 2017/8/30
+  *  Time: 11:08
+  */
+.upload {
+    position: relative;
+}
+
+.upload-head {
+    /*border: red solid;*/
+    overflow: hidden;
+    padding-bottom: 5px;
+}
+
+.upload-content {
+    border-top: #eb7dff solid;
+    clear: both;
+    padding: 10px 10px 0 10px;
+    height: 100%;
+    /*width: 80%;*/
+}
+
+.upload-head input[type=file] {
+    display: none;
+}
+
+.upload-content > .upload-item {
+    display: inline-block;
+    margin: 0 10px 10px 10px;
+}
+
+.upload-content > .upload-item > .upload-image {
+    width: 200px;
+    height: 150px;
+    overflow: hidden;
+    position: relative;
+}
+
+.upload-content > .upload-item > .upload-image > img {
+    width: 200px;
+    overflow: hidden;
+}
+
+.upload-content > .upload-item > .upload-image > .upload-text {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    color: #4da765;
+    background: black;
+    opacity: 0.5;
+    padding-left: 5px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis
+}
+
+.upload-content > .upload-item > .upload-image > .upload-text-error {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    color: white;
+    background: red;
+}
+
+.upload-content > .upload-item > progress {
+    width: 100%;
+}
+
+/*.upload-content >.upload-item {*/
+/*position: absolute;*/
+/*top: 5px;*/
+/*right: 5px;*/
+/*width: 16px;*/
+/*height: 16px;*/
+/*font-size: 12px;*/
+/*}*/
+.upload-content > .upload-item .layui-layer-setwin {
+
+}
+
+.upload-content > .upload-item .layui-layer-close {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+}

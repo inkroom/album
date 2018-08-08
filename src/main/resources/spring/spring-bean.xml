@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:task="http://www.springframework.org/schema/task" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.2.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd"
+>
+
+
+    <bean class="org.apache.commons.dbcp2.BasicDataSource"
+          destroy-method="close"
+          id="dataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="url"
+                  value="jdbc:mysql://123.207.13.252:3306/image?useUnicode=true&amp;characterEncoding=utf-8&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC"/>
+        <property name="username" value="image"/>
+        <property name="password" value="Im.sssss123"/>
+    </bean>
+
+    <!-- 在使用mybatis时 spring使用sqlsessionFactoryBean 来管理mybatis的sqlsessionFactory-->
+    <!-- 创建sqlsessionFactory 并指定数据源  -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!--mybatis配置-->
+        <property name="configLocation" value="classpath:mybatis/mybatis-config.xml"/>
+        <!--sql映射-->
+        <!--<property name="mapperLocations" value="classpath:cn/inkroom/web/images/dao/*.xml"/>-->
+    </bean>
+
+    <!--这个类启动mybatis注解-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!-- 这里指定了要扫描的映射接口的路径 -->
+        <property name="basePackage" value="cn.inkroom.web.quartz.dao"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+
+    <!-- 事务管理器 -->
+    <bean id="txManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!-- 事务注解驱动，标注@Transactional的类和方法将具有事务性 -->
+    <tx:annotation-driven transaction-manager="txManager"/>
+    <!-- 文件上传解析器 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="utf-8"/>
+        <property name="maxUploadSize" value="15249432000"/>
+        <property name="maxInMemorySize" value="40960"/>
+    </bean>
+
+
+    <!--定时任务-->
+    <task:annotation-driven/>
+    <!--<bean id="ip" claIpScheduleduled">-->
+    <!--<property name="come" value="xml配置"/>-->
+    <!--</bean>-->
+    <!--<task:scheduled-tasks>-->
+    <!--<task:scheduled ref="ip" method="run" cron="* * * * * *" fixed-rate="2000"/>-->
+    <!--</task:scheduled-tasks>-->
+    <!--<task:scheduled-tasks>-->
+    <!--<task:scheduled ref="" method=""/>-->
+    <!--</task:scheduled-tasks>-->
+    <!--<bean id="timeDitail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">-->
+    <!--<property name="targetObject" ref="myTimer"></property>&lt;!&ndash; 指定任务类 &ndash;&gt;-->
+
+    <!--<property name="targetMethod" value="doit"></property>&lt;!&ndash; 指定任务方法 &ndash;&gt;-->
+
+    <!--</bean>-->
+    <!--国际化提示信息-->
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename" value="message.message"/>
+        <property name="defaultEncoding" value="utf-8"/>
+        <property name="useCodeAsDefaultMessage" value="true"/>
+    </bean>
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver"/>
+</beans>

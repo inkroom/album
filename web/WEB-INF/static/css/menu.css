@@ -1,0 +1,28 @@
+/**
+    菜单样式表
+ */
+
+.popMenu {
+    display: inline-block;
+    background: gray;
+    position: absolute;
+}
+
+.plus {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+.menu {
+    min-width: 60px;
+    text-align: center;
+    margin: 5px;
+    padding: 5px;
+    cursor: default;
+    border-radius: 3px;
+}
+
+.menu:hover {
+    background: green;
+}

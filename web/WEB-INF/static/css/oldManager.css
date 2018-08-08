@@ -1,0 +1,12 @@
+/**
+ * Created by 墨盒 on 2017/3/9.
+ * 相册管理插件css
+ */
+.group {
+    margin-bottom: 2%;
+}
+
+.group a {
+    margin-left: 30px;
+    /*margin-right: 30px;*/
+}
