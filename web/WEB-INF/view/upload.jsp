@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>上传图片</title>
+    <meta name = "viewport" content="width=device-width,initial-scale=1.0 user-scalable = no , maximum-scale=1.0">
     <!-- <singleLink rel="shortcut icon" href="http://static.inkroom.cn/image/img/favicon.ico" type="image/x-icon"/> -->
     <link rel="stylesheet" type="text/css" href="http://static.inkroom.cn/image/css/style.css">
     <style type="text/css">
@@ -43,7 +44,7 @@
 
 
     </style>
-    <singleLink type="text/css" rel="stylesheet" href="http://static.inkroom.cn/image/css/upload.css">
+    <link type="text/css" rel="stylesheet" href="http://static.inkroom.cn/image/css/upload.css">
 
 </head>
 <body>

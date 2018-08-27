@@ -5,6 +5,8 @@ import cn.inkroom.web.quartz.bean.AjaxBean;
 import cn.inkroom.web.quartz.config.PathConfig;
 import cn.inkroom.web.quartz.entity.Size;
 import cn.inkroom.web.quartz.enums.Result;
+import cn.inkroom.web.quartz.exception.upload.ExistException;
+import cn.inkroom.web.quartz.exception.upload.NumberException;
 import cn.inkroom.web.quartz.handler.MessageException;
 import cn.inkroom.web.quartz.service.ConfigService;
 import cn.inkroom.web.quartz.config.Constants;
@@ -107,12 +109,24 @@ public class CommonController extends BaseController {
 //        String fileName = file.getOriginalFilename();
         logger.debug(" 相册名  album =" + album);
 
-        String url = fileService.upload(file, albumId, ownerId);
-
-        if (url!=null){
-            return new AjaxBean(Result.SUCCESS);
-        }else{
+        try {
+            logger.info("开始");
+            String url = fileService.upload(file, albumId, ownerId);
+            logger.info("通过");
+            if (url != null) {
+                return new AjaxBean(Result.SUCCESS);
+            } else {
+                logger.debug("else");
+                return new AjaxBean(Result.FAIL);
+            }
+        } catch (ExistException e) {
+            logger.debug("捕获 已存在异常");
+            return new AjaxBean(Result.FILE_EXISTS, e.getMessage());
+        } catch (NumberException e) {
+            logger.debug("捕获 数字异常");
             return new AjaxBean(Result.FAIL);
+        } catch (Exception e) {
+            return new AjaxBean(Result.EXCEPTION);
         }
 
 //        Calendar c = Calendar.getInstance();
@@ -139,5 +153,12 @@ public class CommonController extends BaseController {
 //            e.printStackTrace();
 //            return new AjaxBean(Result.FAIL);
 //        }
+    }
+
+
+    @RequestMapping("{ownerId:[1-9]*[0-9]+}/{albumId:[1-9]*[0-9]+}/{id:[1-9]*[0-9]+}/download")
+    @ResponseBody
+    public void download(@PathVariable(value = "id") long id) {
+        fileService.download(response, id);
     }
 }

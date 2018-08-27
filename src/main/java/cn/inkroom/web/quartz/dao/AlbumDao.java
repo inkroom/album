@@ -17,11 +17,11 @@ import java.util.List;
 public interface AlbumDao {
     @Select("SELECT id,name,authority,owner,cover,number,size,create_time as createTime," +
             "change_time as changeTime,content,type" +
-            " FROM album where owner = #{ownerId}")
+            " FROM album where owner = #{ownerId} order by id desc")
     List<AlbumBean> getAlbums(@Param("ownerId") long ownerId) throws Exception;
 
     @Select("SELECT upload.id,upload.create_time as createTime " +
-            "FROM upload where upload.owner = #{albumId}")
+            "FROM upload where upload.owner = #{albumId} and upload.status = 1 order by id desc")
     List<ImageBean> getImages(@Param("albumId") long albumId) throws Exception;
 
     @Select("SELECT id,name,authority,owner,cover,number,size,create_time AS createTime," +
@@ -65,4 +65,8 @@ public interface AlbumDao {
             " where id = #{a.id} and owner = #{a.owner}")
     int updateAlbum(@Param("a") AlbumBean album) throws Exception;
 
+    @Update(
+            "update upload set owner = #{otherAlbumId} where id = #{imgId}"
+    )
+    int updateImageOwner(@Param("imgId") long imgId, @Param("otherAlbumId") long otherAlbumId) throws Exception;
 }

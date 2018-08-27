@@ -17,7 +17,7 @@
         request.setAttribute("account", Constants.KEY_REQUEST_VISIT_ACCOUNT);
     %>
     <title>${requestScope.get(requestScope.get('account')).getNickname()}相册</title>
-
+    <meta name = "viewport" content="width=device-width,initial-scale=1.0 user-scalable = no , maximum-scale=1.0">
     <style type="text/css">
         #form {
             margin: auto;

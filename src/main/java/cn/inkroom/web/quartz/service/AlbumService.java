@@ -72,6 +72,28 @@ public class AlbumService {
     }
 
     @Transactional
+    public boolean moveImage(AlbumBean album, long imageId, long otherAlbumId) throws Exception {
+
+        int count = albumDao.updateNumber(album.getOwner(), album.getId(), -1);
+        if (count != 1) {
+            throw new RuntimeException();
+        }
+        count = albumDao.updateNumber(album.getOwner(), otherAlbumId, 1);
+        if (count != 1) {
+            throw new RuntimeException();
+        }
+
+        //修改图片所属相册id，暂不移动cos存储路径
+
+        count = albumDao.updateImageOwner(imageId, otherAlbumId);
+        if (count != 1) {
+            throw new RuntimeException();
+        }
+        return true;
+
+    }
+
+    @Transactional
     public boolean removeAlbum(long ownerId, long albumId, long size) throws Exception {
         try {
             long count = albumDao.updateSize(ownerId, albumId, size);

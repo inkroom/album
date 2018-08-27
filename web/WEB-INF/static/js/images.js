@@ -8,9 +8,35 @@ $(function () {
     });
     loadLazy('.image_item>.image>img');
 });
+
 function loadImageMenu(path) {
+
+    function getImgId($menu) {
+
+        var id = $menu.parent().parent().find('.image>img').attr('lazy').match(/\/([1-9]*[0-9]+)\/res/)[1];
+        if (id === null || typeof (id) === 'undefined') {
+            show('错误数据', '刷新页面', function () {
+                location.reload();
+            });
+            return;
+        }
+        return id;
+    }
+
+    function getImgIdParent($parent) {
+        console.log($parent.find('.image>img'))
+        var id = $parent.find('.image>img').attr('lazy').match(/\/([1-9]*[0-9]+)\/res/)[1];
+        if (id === null || typeof (id) === 'undefined') {
+            show('错误数据', '刷新页面', function () {
+                location.reload();
+            });
+            return;
+        }
+        return id;
+    }
+
     loadMenu({
-        path:path,
+        path: path,
         owner: '.image_item',
         menu: [
             {
@@ -23,15 +49,8 @@ function loadImageMenu(path) {
                 value: '删除',
                 callback: function ($menu) {
                     layerConfirm('您确定删除该图片？', function () {
-                        var id = $menu.parent().parent().find('.image>img').attr('src').match(/\/([1-9]*[0-9]+)\/res/)[1];
-                        if (id === null || typeof (id) === 'undefined') {
-                            show('错误数据', '刷新页面', function () {
-                                location.reload();
-                            });
-                            return;
-                        }
                         ajax({
-                            url: id + '/removeImg',
+                            url: getImgId($menu) + '/removeImg',
                             type: 'get',
                             dataType: 'json',
                             success: function (result) {
@@ -60,18 +79,91 @@ function loadImageMenu(path) {
                 }
             },
             {
+                value: '下载',
+                callback: function ($menu) {
+                    var src = $menu.parent().parent().find('.image>img').attr('layer-src');
+
+                    // var a = document.createElement('a');
+                    // a.style.display = 'none';
+                    // a.download=getImgId($menu)+'.jpg';
+                    // a.href=src.replace('res','download');
+                    // document.body.appendChild(a);
+                    // a.click();
+                    // document.body.removeChild(a);
+                    window.open(src.replace('res', 'download'));
+                }
+            },
+            {
+                value: '移动到',
+                callback: function ($menu) {
+                    window.menu = $menu.parent().parent();
+                    ajax({
+                        url: "../",
+                        type: 'post',
+                        success: function (result) {
+                            if (result.status === 0) {
+
+
+                                window.submit = function (obj) {
+                                    var value = $(obj).parent().parent().find('select').val();
+                                    window.v = value;
+                                    layerConfirm('您确定移动该图片？', function () {
+                                        try {
+                                            var value = window.v;
+                                            window.v = null;
+                                            ajax({
+                                                url: getImgIdParent(window.menu) + "/moveImg/" + value,
+                                                success: function (result) {
+                                                    if (result.status === 0) {
+                                                        layer.closeAll()
+                                                        window.menu.remove();
+                                                    } else {
+                                                        show('移动图片失败');
+                                                    }
+                                                    window.menu = null;
+                                                }
+                                            });
+                                        }
+                                        catch (e) {
+                                            console.log(e)
+                                        }
+                                    });
+                                }
+
+
+                                var options = $('<select></select>');
+                                for (var i = 0; i < result.data.albums.length; i++) {
+                                    options.append('<option value="' + result.data.albums[i].id + '">' + result.data.albums[i].name + '</option>');
+                                }
+
+
+                                var id = Math.random();
+
+                                var $container = $('<div id="' + id + '" style="margin: 10px">要移动到的相册</div>');
+                                $container.append(options);
+                                $container.append('<div style="text-align: center;margin: 10px;"><button class="btn btn-block" onclick="submit(this)">确认</button></div>')
+
+                                layer.open({
+                                    type: 1,
+                                    shade: 0.7,
+                                    title: '移动图片',
+                                    content: $container.prop('outerHTML'), //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
+                                    cancel: function () {
+
+                                    }
+                                });
+
+                            }
+                        }
+                    })
+                }
+            },
+            {
                 value: '设为封面',
                 callback: function ($menu) {
                     layerConfirm('您确定将该图片设置成封面？', function () {
-                        var id = $menu.parent().parent().find('.image>img').attr('src').match(/\/([1-9]*[0-9]+)\/res/)[1];
-                        if (id === null || typeof (id) === 'undefined') {
-                            show('错误数据', '刷新页面', function () {
-                                location.reload();
-                            });
-                            return;
-                        }
                         ajax({
-                            url: id + '/setCover',
+                            url: getImgId($menu) + '/setCover',
                             type: 'get',
                             dataType: 'json',
                             success: function (result) {
@@ -101,6 +193,7 @@ function loadImageMenu(path) {
         ]
     });
 }
+
 function loadImageManager(uploadUrl) {
     var imageIds = [];
     var index;

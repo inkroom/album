@@ -14,26 +14,25 @@
 
     <!--腾讯云cos存储-->
     <bean class="cn.inkroom.web.quartz.service.impl.CosFileService">
-        <property name="cosClient">
-            <bean class="com.qcloud.cos.COSClient">
-                <constructor-arg name="clientConfig">
-                    <bean class="com.qcloud.cos.ClientConfig">
-                        <constructor-arg name="region">
-                            <bean class="com.qcloud.cos.region.Region">
-                                <constructor-arg name="region_name" value="${cos.region}"/>
-                            </bean>
-                        </constructor-arg>
-                    </bean>
-                </constructor-arg>
-                <constructor-arg name="cred">
-                    <bean class="com.qcloud.cos.auth.BasicCOSCredentials">
-                        <constructor-arg name="accessKey" value="${cos.accessKey}"/>
-                        <constructor-arg name="secretKey" value="${cos.secretKey}"/>
-                    </bean>
-                </constructor-arg>
-            </bean>
-        </property>
+        <property name="cosClient" ref="client"/>
     </bean>
 
 
+    <bean id="client" class="com.qcloud.cos.COSClient">
+        <constructor-arg name="clientConfig">
+            <bean class="com.qcloud.cos.ClientConfig">
+                <constructor-arg name="region">
+                    <bean class="com.qcloud.cos.region.Region">
+                        <constructor-arg name="region_name" value="${cos.region}"/>
+                    </bean>
+                </constructor-arg>
+            </bean>
+        </constructor-arg>
+        <constructor-arg name="cred">
+            <bean class="com.qcloud.cos.auth.BasicCOSCredentials">
+                <constructor-arg name="accessKey" value="${cos.accessKey}"/>
+                <constructor-arg name="secretKey" value="${cos.secretKey}"/>
+            </bean>
+        </constructor-arg>
+    </bean>
 </beans>

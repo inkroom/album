@@ -113,6 +113,7 @@ CREATE TABLE IF NOT EXISTS `upload` (
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` int(1) DEFAULT NULL COMMENT '状态',
   `owner` bigint(20) NOT NULL COMMENT '属于哪个相册',
+  `md5` varchar(300) NOT NULL COMMENT '文件md5值，防止相同图片重复上传',
   PRIMARY KEY (`id`),
   KEY `FK_upload_album` (`owner`),
   CONSTRAINT `FK_upload_album` FOREIGN KEY (`owner`) REFERENCES `album` (`id`) ON DELETE CASCADE ON UPDATE CASCADE

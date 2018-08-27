@@ -8,6 +8,7 @@
 <head>
     <title>注册</title>
     <!-- <singleLink rel="shortcut icon" href="http://static.inkroom.cn/image/img/favicon.ico" type="image/x-icon"/> -->
+    <meta name = "viewport" content="width=device-width,initial-scale=1.0 user-scalable = no , maximum-scale=1.0">
     <link rel="stylesheet" type="text/css" href="http://static.inkroom.cn/image/css/style.css">
     <link rel="stylesheet" type="text/css" href="http://static.inkroom.cn/image/css/input.css"/>
     <style type="text/css">

@@ -4,6 +4,14 @@
  */
 function loadUpload(url, upload) {
     var uploader;
+
+    var count = {
+        success: 0,
+        fail: 0,
+        exist: 0
+    };
+    window.count = count;
+
     ajax({
         url: url,
         dataType: 'json',
@@ -133,16 +141,27 @@ function loadUpload(url, upload) {
             uploader.on('uploadSuccess', function (file, response) {
                 // console.info(response);
                 if (response.status === 0) {
+
+                    count.success = count.success + 1;
                     var $item = $('#' + file.id).find('.upload-image');
                     if ($item.find('.upload-text-error').length === 0) {
                         $item.append('<span class="upload-text-error">上传成功</span>')
                     }
                     $item.parent().remove();
+                } else if (response.status === 2) {//文件重复上传
+                    var $item = $('#' + file.id).find('.upload-image');
+                    if ($item.find('.upload-text-error').length === 0) {
+                        $item.append('<span class="upload-text-error">上传重复</span>')
+                    }
+                    $item.parent().remove();
+                    count.exist = count.exist + 1;
+                    file.setStatus(WebUploader.File.Status.ERROR)
                 } else {
                     var $item = $('#' + file.id).find('.upload-image');
                     if ($item.find('.upload-text-error').length === 0) {
                         $item.append('<span class="upload-text-error">上传失败</span>')
                     }
+                    count.fail = count.fail + 1;
                     $item.parent().remove();
                     file.setStatus(WebUploader.File.Status.ERROR)
                 }
@@ -152,12 +171,16 @@ function loadUpload(url, upload) {
             });
             uploader.on('uploadFinished', function () {
                 var stats = uploader.getStats();
-                show('上传成功' + stats.successNum + '张图片，' + stats.uploadFailNum + '张图片上传失败')
+                show('上传成功' + count.success + '张图片，' + count.fail + '张图片上传失败' + "，" + count.exist + "张图片重复上传")
                 $('.upload-head').find('input,button,.btn').prop('disabled', false).removeClass('btn-disabled');
                 var files = uploader.getFiles();
                 for (var i = 0; i < files.length; i++) {
                     uploader.removeFile(files[i], true);
                 }
+
+                count.success = 0
+                count.fail = 0;
+                count.exist = 0;
 
                 stats.successNum = 0;
                 stats.progressNum = 0;
@@ -168,7 +191,7 @@ function loadUpload(url, upload) {
             });
             uploader.on('uploadBeforeSend', function (obj, data, headers) {
                 data.album = $('#album').val();
-                console.log("路径= "+location.href.toString());
+                console.log("路径= " + location.href.toString());
                 // data.owner = getId(location.href.search(), 0);
                 // data.owner = location.href.search(/[1-9]*[0-9]+\/$/);
                 data.owner = location.pathname.toString().match(/album\/([1-9]*[0-9]+)\//)[1];

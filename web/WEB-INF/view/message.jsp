@@ -8,6 +8,7 @@
 <head>
     <!-- <singleLink rel="shortcut icon" href="http://static.inkroom.cn/image/img/favicon.ico" type="image/x-icon"/> -->
     <title>提示</title>
+    <meta name = "viewport" content="width=device-width,initial-scale=1.0 user-scalable = no , maximum-scale=1.0">
 </head>
 <body>
 <%request.setAttribute("key", Constants.KEY_REQUEST_MESSAGE);%>

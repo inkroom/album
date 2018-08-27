@@ -3,7 +3,7 @@ package cn.inkroom.web.quartz.enums;
 public enum Result {
     SUCCESS,
     FAIL,
-    FILE_EXISTS,
+    FILE_EXISTS,//上传的图片已存在
     ALBUM_NOT_EXISTS,
     DIR_EXISTS,
     PARAM_NOT_SUIT,//参数格式不正确
@@ -14,6 +14,7 @@ public enum Result {
     FILE_NOT_EXISTS,
     EXCEPTION,//发生异常
     ANSWER_ERROR;//答案错误
+
 
     private Result() {
     }

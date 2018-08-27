@@ -24,7 +24,7 @@ public interface FileService {
      * @param albumId 相册id
      * @return 可直接使用的url
      */
-    String upload(MultipartFile file, long albumId,long ownerId);
+    String upload(MultipartFile file, long albumId,long ownerId) throws Exception;
 
     /**
      * 获取文件
@@ -41,5 +41,11 @@ public interface FileService {
      */
     String get(long id);
 
+    /**
+     * 通过流下载文件
+     * @param response 响应
+     * @param id 文件id
+     */
+    void download(HttpServletResponse response,long id);
 
 }

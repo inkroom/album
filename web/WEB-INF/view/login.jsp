@@ -14,6 +14,7 @@
     <%--<!-- <singleLink rel="shortcut icon" href="http://static.inkroom.cn/image/img/favicon.ico" type="image/x-icon"/> -->--%>
     <link rel="stylesheet" type="text/css" href="http://static.inkroom.cn/image/css/style.css"/>
     <link rel="stylesheet" type="text/css" href="http://static.inkroom.cn/image/css/input.css"/>
+    <meta name = "viewport" content="width=device-width,initial-scale=1.0 user-scalable = no , maximum-scale=1.0">
     <style type="text/css">
         .wrap .login_frame {
             width: 70%;
@@ -197,9 +198,9 @@
                     error: function () {
                         layer.open({
                             type: 0
-                            , title: '上传失败'
+                            , title: '登录失败'
                             , icon: 2
-                            , content: '图片上传失败，已中断后续上传'
+                            , content: '登录失败，请联系系统管理员'
                             , btn: '知道了'
                             , btnAlign: 'c' //按钮居中
                             , shade: 0 //不显示遮罩

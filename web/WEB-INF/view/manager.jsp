@@ -18,6 +18,7 @@
     <link rel="stylesheet" type="text/css" href="http://static.inkroom.cn/image/css/input.css"/>
     <link rel="stylesheet" type="text/css" href="http://static.inkroom.cn/image/css/manager.css"/>
     <link rel="stylesheet" type="text/css" href="http://static.inkroom.cn/image/css/upload.css"/>
+    <meta name = "viewport" content="width=device-width,initial-scale=1.0 user-scalable = no , maximum-scale=1.0">
     <style type="text/css">
         .wrapper {
             padding-top: 5%;

@@ -84,6 +84,22 @@ public class ImgController extends BaseController {
         return new AjaxBean(result ? Result.SUCCESS : Result.FAIL);
     }
 
+    /**
+     * 移动图片到另一个相册
+     *
+     * @param imageId
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = {"/{imageId:[1-9]*[0-9]+}/moveImg/{otherAlbumId:[1-9]*[0-9]+}"}, method = {RequestMethod.GET})
+    @ResponseBody
+    @Authority(type = Authority.Type.ME)
+    public AjaxBean moveImage(@PathVariable(value = "imageId") long imageId, @PathVariable(value = "otherAlbumId") long otherAlbumId) throws Exception {
+        AlbumBean album = (AlbumBean) request.getAttribute(Constants.KEY_REQUEST_VISIT_ALBUM);
+        boolean result = albumService.moveImage(album, imageId, otherAlbumId);
+        return new AjaxBean(result ? Result.SUCCESS : Result.FAIL);
+    }
+
     @RequestMapping(value = {"/{imageId:[1-9]*[0-9]+}/setCover"}, method = {RequestMethod.GET})
     @ResponseBody
     @Authority(type = Authority.Type.ME)

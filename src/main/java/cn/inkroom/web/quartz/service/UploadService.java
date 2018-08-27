@@ -2,12 +2,15 @@ package cn.inkroom.web.quartz.service;
 
 import cn.inkroom.web.quartz.dao.AlbumDao;
 import cn.inkroom.web.quartz.dao.UploadDao;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
+
+import java.io.FileInputStream;
 
 /**
  * @author 墨盒
@@ -31,7 +34,7 @@ public class UploadService {
             if (count < 1)
                 throw new RuntimeException();
 //                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            count = uploadDao.insertFile(path, albumId);
+            count = uploadDao.insertFile(path, albumId, DigestUtils.md5Hex(new FileInputStream(path)));
             if (count < 1) {
                 throw new RuntimeException();
 //                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
