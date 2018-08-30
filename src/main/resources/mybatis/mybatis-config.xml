@@ -17,4 +17,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		 <package name="com.nsu.bean" /> 
 	</typeAliases> -->
 
+	<typeHandlers>
+		<typeHandler handler="cn.inkroom.web.quartz.handler.DateHandler" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+	</typeHandlers>
+
 </configuration>

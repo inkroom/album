@@ -35,7 +35,7 @@
         </mvc:interceptor>
         <!--权限拦截-->
         <mvc:interceptor>
-            <mvc:mapping path="/**/"/>
+            <mvc:mapping path="/**"/>
             <bean class="cn.inkroom.web.quartz.interceptors.AuthorityInterceptor"/>
         </mvc:interceptor>
         <!--拦截国际化信息变化-->

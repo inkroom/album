@@ -1,6 +1,7 @@
 package cn.inkroom.web.quartz.service.impl;
 
 import cn.inkroom.web.quartz.bean.AlbumBean;
+import cn.inkroom.web.quartz.config.Constants;
 import cn.inkroom.web.quartz.dao.AlbumDao;
 import cn.inkroom.web.quartz.dao.UploadDao;
 import cn.inkroom.web.quartz.exception.upload.ExistException;
@@ -29,6 +30,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -117,12 +119,17 @@ public class CosFileService implements FileService {
         if (count < 1)
             throw new NumberException();
 
+        //更新最后修改时间
+        count = albumDao.updateLastModify(ownerId, albumId, new Date());
+        if (count < 1)
+            throw new NumberException();
+
         AlbumBean album = albumDao.getOneAlbum(ownerId, albumId);
 
         ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentType("image/jpeg");
+        metadata.setContentType(Constants.RESPONSE_CONTENT_TYPE_IMAGE);
         metadata.setContentLength(file.getSize());
-        metadata.setContentEncoding("utf-8");
+        metadata.setContentEncoding(Constants.CHARSET);
 
         String md5 = DigestUtils.md5Hex((file.getInputStream()));
 

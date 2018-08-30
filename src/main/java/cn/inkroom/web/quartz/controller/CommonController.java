@@ -1,5 +1,6 @@
 package cn.inkroom.web.quartz.controller;
 
+import cn.inkroom.web.quartz.annotions.Authority;
 import cn.inkroom.web.quartz.bean.AccountBean;
 import cn.inkroom.web.quartz.bean.AjaxBean;
 import cn.inkroom.web.quartz.config.PathConfig;
@@ -86,7 +87,7 @@ public class CommonController extends BaseController {
 
     @RequestMapping(value = {"upload"}, method = {RequestMethod.POST})
     @ResponseBody
-//    @Authority(type = Authority.Type.ME)
+    @Authority(type = Authority.Type.ME)
     public AjaxBean upload(@RequestParam(value = "file") MultipartFile file, @RequestParam(value = "album") String album, @RequestParam(value = "owner") String owner) throws Exception {
         long albumId;
         long ownerId;
@@ -106,17 +107,13 @@ public class CommonController extends BaseController {
             //相册容量不足
             throw new MessageException("request.upload.full");
         }
-//        String fileName = file.getOriginalFilename();
         logger.debug(" 相册名  album =" + album);
 
         try {
-            logger.info("开始");
             String url = fileService.upload(file, albumId, ownerId);
-            logger.info("通过");
             if (url != null) {
                 return new AjaxBean(Result.SUCCESS);
             } else {
-                logger.debug("else");
                 return new AjaxBean(Result.FAIL);
             }
         } catch (ExistException e) {

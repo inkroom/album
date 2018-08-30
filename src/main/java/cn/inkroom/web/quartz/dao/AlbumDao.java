@@ -5,6 +5,7 @@ import cn.inkroom.web.quartz.bean.ImageBean;
 import cn.inkroom.web.quartz.bean.QuestionBean;
 import org.apache.ibatis.annotations.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ import java.util.List;
 public interface AlbumDao {
     @Select("SELECT id,name,authority,owner,cover,number,size,create_time as createTime," +
             "change_time as changeTime,content,type" +
-            " FROM album where owner = #{ownerId} order by id desc")
+            " FROM album where owner = #{ownerId} order by last_modify desc")
     List<AlbumBean> getAlbums(@Param("ownerId") long ownerId) throws Exception;
 
     @Select("SELECT upload.id,upload.create_time as createTime " +
@@ -46,6 +47,9 @@ public interface AlbumDao {
 
     @Update("update album set album.number =album.number + #{number} where album.id = #{albumId} and album.owner = #{ownerId} limit 1")
     int updateNumber(@Param("ownerId") long ownerId, @Param("albumId") long albumId, @Param("number") int number) throws Exception;
+
+    @Update("update album set last_modify =#{last,typeHandler=cn.inkroom.web.quartz.handler.DateHandler} where album.id = #{albumId} and album.owner = #{ownerId}  limit 1")
+    int updateLastModify(@Param("ownerId") long ownerId, @Param("albumId") long albumId, @Param("last")Date time) throws Exception;
 
     @Insert("insert into album (name,authority,owner,content) values(#{a.name},#{a.authority},#{a.owner},#{a.content})")
     @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "a.id")

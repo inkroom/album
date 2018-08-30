@@ -214,3 +214,12 @@ INSERT INTO `album` ( `name`, `authority`, `owner`,  `create_time`, `change_time
 	( '终结的炽天使', 0, 1, '2017-08-15 23:41:29', '2017-08-15 23:41:29', '终结的炽天使', 0),
 	( '专列', 0, 1, '2017-08-15 23:41:29', '2017-08-15 23:41:29', '专列', 0),
 	( '罪恶王冠', 0, 1, '2017-08-15 23:41:29', '2017-08-15 23:41:29', '罪恶王冠', 0);
+
+
+
+-- 2018-08-30
+alter table album add column last_modify datetime;
+UPDATE album SET last_modify = now();
+ALTER TABLE album modify COLUMN last_modify datetime NOT NULL ;
+
+
