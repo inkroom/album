@@ -25,10 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLEncoder;
+import java.net.*;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.UUID;
@@ -191,30 +188,40 @@ public class CosFileService implements FileService {
     }
 
     @Override
-    public void download(HttpServletResponse response, long id) {
-        String key = dao.getFile(id);
+    public void download(String referer, HttpServletResponse response, long id) {
+        String oosUrl = dao.getFile(id);
         try {
-            if (key == null) {
+            if (oosUrl == null) {
                 response.sendError(404);
                 return;
             }
 
-            key = getKey(key);
-            //去除url前缀，得到key name
-            logger.debug("获取到的key={}", key);
+            //构造连接
 
-            GetObjectRequest request = new GetObjectRequest(bucketName, key);
-            COSObject object = getCosClient().getObject(bucketName, key);
+            logger.info("referer是={}", referer);
+            URL url = new URL(oosUrl);    //把字符串转换为URL请求地址
+            URLConnection connection = url.openConnection();// 打开连接
+            //addRequestProperty添加相同的key不会覆盖，如果相同，内容会以{name1,name2}
+            connection.addRequestProperty("Referer", referer);  //来源哪个系统
+
+
             //通知浏览器以下载的方式打开
             response.addHeader("Content-type", "application/octet-stream");
             response.addHeader("Content-Disposition", "attachment;filename=" + ((id + ".jpg")));
 
-            writeObject(object.getObjectContent(), response.getOutputStream());
-
-            cosClient.shutdown();
+            InputStream input = connection.getInputStream();
+            OutputStream output = response.getOutputStream();
+            byte[] bytes = new byte[1024 * 10];
+            int count = -1;
+            while ((count = input.read(bytes)) != -1) {
+                output.write(bytes, 0, count);
+            }
+            output.flush();
+            output.close();
+            input.close();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
         }
 
     }

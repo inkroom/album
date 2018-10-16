@@ -43,9 +43,10 @@ public interface FileService {
 
     /**
      * 通过流下载文件
+     * @param referer 来源，避开腾讯云oos的盗链拦截
      * @param response 响应
      * @param id 文件id
      */
-    void download(HttpServletResponse response,long id);
+    void download(String referer,HttpServletResponse response,long id);
 
 }

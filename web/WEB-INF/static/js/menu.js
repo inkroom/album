@@ -43,7 +43,12 @@ function loadMenu(data) {
                 }));
         }
     }).on('mouseout', function (e) {
-        if (!(isInside($(this), e))) {
+       var $this = $(this).find('.popMenu');
+        if($this.length==0){
+			$this = $(this);
+		}
+        if (!(isInside($this, e))) {
+
             $(this).find('.plus').remove();
             $(this).find('.popMenu').remove();
         }

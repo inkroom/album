@@ -156,6 +156,6 @@ public class CommonController extends BaseController {
     @RequestMapping("{ownerId:[1-9]*[0-9]+}/{albumId:[1-9]*[0-9]+}/{id:[1-9]*[0-9]+}/download")
     @ResponseBody
     public void download(@PathVariable(value = "id") long id) {
-        fileService.download(response, id);
+        fileService.download(request.getScheme()+"://" + request.getHeader("Host"), response, id);
     }
 }
