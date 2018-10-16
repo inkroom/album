@@ -17,6 +17,6 @@
 
 ### 项目现已成功运行，地址请访问
 
-# [墨盒相册](http://image.inkroom.cn/)
+# [墨盒相册](http://image.inkroom.cn/album/1/)
 
 
