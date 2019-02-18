@@ -51,7 +51,7 @@ public interface AlbumDao {
     @Update("update album set last_modify =#{last,typeHandler=cn.inkroom.web.quartz.handler.DateHandler} where album.id = #{albumId} and album.owner = #{ownerId}  limit 1")
     int updateLastModify(@Param("ownerId") long ownerId, @Param("albumId") long albumId, @Param("last")Date time) throws Exception;
 
-    @Insert("insert into album (name,authority,owner,content) values(#{a.name},#{a.authority},#{a.owner},#{a.content})")
+    @Insert("insert into album (name,authority,owner,content,last_modify) values(#{a.name},#{a.authority},#{a.owner},#{a.content},now())")
     @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "a.id")
     long insertAlbum(@Param("a") AlbumBean album) throws Exception;
 

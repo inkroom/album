@@ -21,6 +21,7 @@
         <mvc:interceptor>
             <mvc:mapping path="/album/**"/>
             <mvc:mapping path="/common/*/*/*/res"/>
+            <mvc:mapping path="/common/upload"/>
             <bean class="cn.inkroom.web.quartz.interceptors.VisitInterceptor"/>
         </mvc:interceptor>
         <!--访问频率-->

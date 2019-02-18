@@ -3,7 +3,7 @@
  * 基本的js方法
  */
 function show(content, btn, yes) {
-    var index = layer.open({
+    layer.open({
         type: 0
         , title: false
         , icon: false
@@ -12,13 +12,11 @@ function show(content, btn, yes) {
         , btn: btn === null ? '知道了' : btn
         , btnAlign: 'c' //按钮居中
         , yes: function () {
-            layer.closeAll();
-            layer.close(index);
+            layer.close(layer.index);
             if (yes !== null && typeof yes === 'function')
                 yes();
         }, cancel: function () {
-            layer.closeAll();
-            layer.close(index);
+            layer.close(layer.index);
             if (yes !== null && typeof yes === 'function')
                 yes();
         }
@@ -26,8 +24,8 @@ function show(content, btn, yes) {
 }
 
 function layerConfirm(content, callback) {
-    var index = layer.confirm(content, {btn: ['确定', '取消']}, function () {
-        layer.close(index);
+     layer.confirm(content, {btn: ['确定', '取消']}, function () {
+        layer.close(layer.index);
         callback();
     }, function () {
 
@@ -99,7 +97,7 @@ function loadLazy(element) {
 }
 
 function getId(value, index) {
-    console.log(value.match(/\/[^\/]+\/([1-9]*[0-9]+)\/([1-9]*[0-9]+)*\/([1-9]*[0-9]+)*/));
+    // console.log(value.match(/\/[^\/]+\/([1-9]*[0-9]+)\/([1-9]*[0-9]+)*\/([1-9]*[0-9]+)*/));
     var albumId = value.match(/\/[^\/]+\/([1-9]*[0-9]+)\/([1-9]*[0-9]+)*\/([1-9]*[0-9]+)*/);
     if (albumId !== null && albumId.length > index + 1) {
         albumId = albumId[index + 1];
@@ -120,11 +118,10 @@ function getId(value, index) {
 
 //提前处理ajax返回的数据
 function ajax(data) {
-    var temp = data.success;
+    var tempSuccess = data.success;
     data.dataType = 'json';
-    // console.log(temp);
+    // console.log(tempSuccess);
     data.success = function (result) {
-        var tempIndex = layer.index + 2;
         // var index = layer.getFrameIndex(window.name);
         layer.close(index);
         // layer.closeAll();
@@ -152,19 +149,19 @@ function ajax(data) {
                 show(result.message, null, null);
                 return;
         }
-        if (typeof temp === 'function')
-            temp(result);
+        if (typeof tempSuccess === 'function')
+            tempSuccess(result);
     };
     var index = -1;
-    var temp1 = data.error;
+    var tempError = data.error;
     data.error = function () {
-        layer.close(index);
+        layer.close(layer.index);
         // layer.closeAll();
         show('网络错误！');
-        if (typeof temp1 === 'function')
-            temp1();
+        if (typeof tempError === 'function')
+            tempError();
     };
-    var temp2 = data.complete;
+    var tempComplete = data.complete;
     data.beforeSend = function () {
         if(layer.v==='2.0') {//移动版layer
             layer.open({type:2,
@@ -182,11 +179,9 @@ function ajax(data) {
         // index = layer.load(0, {
         //     shade: false //0.1透明度的白色背景
         // });
-        layer.close(index);
-        if (typeof temp2 === 'function')
-            temp2();
+        layer.close(layer.index);
+        if (typeof tempComplete === 'function')
+            tempComplete();
     };
     $.ajax(data);
 }
-
-var index;

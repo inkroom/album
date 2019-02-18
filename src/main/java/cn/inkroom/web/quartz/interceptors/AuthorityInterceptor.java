@@ -50,11 +50,15 @@ public class AuthorityInterceptor extends BaseInterceptor {
 
                 }
                 if (a.type() == Authority.Type.ME) {//访问自己
-                    logger.debug(request.getRequestURL() + "   空指针  " + request.getAttribute(Constants.KEY_REQUEST_IS_ME));
-                    Long isMe = (Long) request.getAttribute(Constants.KEY_REQUEST_IS_ME);
-                    if (isMe != null && isMe != -1L) {//是自己登陆，有权限
+                    if (a.open()) {
+                        logger.debug(request.getRequestURL() + "   空指针  " + request.getAttribute(Constants.KEY_REQUEST_IS_ME));
+                        Long isMe = (Long) request.getAttribute(Constants.KEY_REQUEST_IS_ME);
+                        if (isMe != null && isMe != -1L) {//是自己登陆，有权限
+                            return true;
+                        }
+                    } else
                         return true;
-                    }
+
                 }
                 throw new MessageException("request.album.authority");
             }

@@ -14,7 +14,7 @@ import java.lang.annotation.*;
 @Documented
 public @interface Authority {
     Type type() default Type.LOGIN;
-
+    boolean open() default true;//代表是否对外公开，是否需要根据url进行判断
 
     enum Type {
         LOGIN,//需要登录

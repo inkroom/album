@@ -87,7 +87,7 @@ public class CommonController extends BaseController {
 
     @RequestMapping(value = {"upload"}, method = {RequestMethod.POST})
     @ResponseBody
-    @Authority(type = Authority.Type.ME)
+    @Authority(type = Authority.Type.ME, open = false)
     public AjaxBean upload(@RequestParam(value = "file") MultipartFile file, @RequestParam(value = "album") String album, @RequestParam(value = "owner") String owner) throws Exception {
         long albumId;
         long ownerId;
@@ -156,6 +156,6 @@ public class CommonController extends BaseController {
     @RequestMapping("{ownerId:[1-9]*[0-9]+}/{albumId:[1-9]*[0-9]+}/{id:[1-9]*[0-9]+}/download")
     @ResponseBody
     public void download(@PathVariable(value = "id") long id) {
-        fileService.download(request.getScheme()+"://" + request.getHeader("Host"), response, id);
+        fileService.download(request.getScheme() + "://" + request.getHeader("Host"), response, id);
     }
 }
