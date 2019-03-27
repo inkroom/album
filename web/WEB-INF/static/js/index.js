@@ -179,7 +179,7 @@ function ajax(data) {
         // index = layer.load(0, {
         //     shade: false //0.1透明度的白色背景
         // });
-        layer.close(layer.index);
+    //    layer.close(layer.index);
         if (typeof tempComplete === 'function')
             tempComplete();
     };
