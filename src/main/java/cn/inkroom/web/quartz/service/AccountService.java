@@ -22,6 +22,7 @@ public class AccountService {
      */
     public AccountBean login(String account, String password, boolean isEncrypt) throws Exception {
         AccountBean accountBean = accountDao.login(account);
+        if(accountBean==null) return null;
         if (isEncrypt) {
             return password.equals(accountBean.getPassword()) ? accountBean : null;
         }
